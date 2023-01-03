@@ -20,4 +20,6 @@ func main() {
 	discountSvc := serviceimpl.InitDiscountSvcImpl(&productSvc, &customerSvc)
 
 	delivery.ConfigureDiscountsHandler(e, &customerSvc, &productSvc, &discountSvc)
+
+	e.Start(":8282")
 }

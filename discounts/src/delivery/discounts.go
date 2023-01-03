@@ -1,6 +1,7 @@
 package delivery
 
 import (
+	"fmt"
 	"net/http"
 	"simple/src/models"
 	"simple/src/service"
@@ -22,6 +23,7 @@ func ConfigureDiscountsHandler(e *echo.Echo, cs service.CustomerService, ps serv
 	o := &DiscountsHandler{
 		customerSvc: cs,
 		productSvc:  ps,
+		discountSvc: ds,
 	}
 	e.Add("POST", offers, o.getDiscounts)
 }
@@ -32,6 +34,7 @@ func (d *DiscountsHandler) getDiscounts(c echo.Context) error {
 	err := c.Bind(&order)
 
 	if err != nil {
+		fmt.Println(err)
 		return c.JSON(http.StatusBadRequest, "bad request")
 	}
 	discounts, err := d.discountSvc.Find(ctx, *order)
